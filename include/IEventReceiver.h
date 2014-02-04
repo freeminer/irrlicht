@@ -382,6 +382,7 @@ struct SEvent
         //! Reset variables.
 		void clear()
 		{
+			PointerCount = 0;
 			for (u16 i = 0; i < NUMBER_OF_MULTI_TOUCHES; ++i)
             {
 				Touched[i] = 0;
@@ -389,9 +390,12 @@ struct SEvent
 				Y[i] = 0;
 				PrevX[i] = 0;
 				PrevY[i] = 0;
+				ID[i] = 0;
 			}
 		}
-        
+		// Number of pointers
+        u8 PointerCount;
+
         // Status of simple touch.
         u8 Touched[NUMBER_OF_MULTI_TOUCHES];
         
@@ -406,6 +410,8 @@ struct SEvent
         
         // Previous Y position of simple touch.
 		s32 PrevY[NUMBER_OF_MULTI_TOUCHES];
+
+		s32 ID[NUMBER_OF_MULTI_TOUCHES];
         
 		//! Type of multi touch event
 		EMULTI_TOUCH_INPUT_EVENT Event;

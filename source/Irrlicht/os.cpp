@@ -143,6 +143,7 @@ namespace os
 // ----------------------------------------------------------------
 
 #include <android/log.h>
+#include <sys/time.h>
 
 namespace irr
 {
@@ -224,6 +225,8 @@ namespace os
 } // end namespace os
 
 #endif // end linux / android / windows
+
+#include <time.h>
 
 namespace os
 {

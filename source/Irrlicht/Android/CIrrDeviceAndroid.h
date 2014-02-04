@@ -13,6 +13,7 @@
 #include "IrrlichtDevice.h"
 #include "IImagePresenter.h"
 #include "ICursorControl.h"
+#include "irrMap.h"
 
 #include <android/sensor.h>
 #include <android_native_app_glue.h>
@@ -75,6 +76,8 @@ namespace irr
 		bool Paused;
 
 		video::SExposedVideoData ExposedVideoData;
+
+		core::map<s32, irr::core::vector2d<s32> > *previousMotionData;
 	};
 
 } // end namespace irr

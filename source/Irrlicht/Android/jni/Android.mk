@@ -6,21 +6,18 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := Irrlicht
 IRRLICHT_LIB_NAME := lib$(LOCAL_MODULE).a
 
-LOCAL_CFLAGS := -D_IRR_ANDROID_PLATFORM_ -Wall -pipe -fno-exceptions -fno-rtti -fstrict-aliasing
+LOCAL_CFLAGS := -D_IRR_ANDROID_PLATFORM_ -Wall -pipe -fno-exceptions -fno-rtti -fstrict-aliasing -DNO_IRR_COMPILE_WITH_ZIP_ENCRYPTION_
 
 ifndef NDEBUG
-LOCAL_CFLAGS += -g -D_DEBUG
+LOCAL_CFLAGS += -g -O0 -D_DEBUG
 else
 LOCAL_CFLAGS += -fexpensive-optimizations -O3
 endif
 
 LOCAL_C_INCLUDES := ../../../include
 
-LOCAL_SRC_FILES := \
-					Android/CIrrDeviceAndroid.cpp \
-					Android/CAndroidAssetReader.cpp \
-					Android/CAndroidAssetFileArchive.cpp \
-					aesGladman/aescrypt.cpp \
+
+#					aesGladman/aescrypt.cpp \
 					aesGladman/aeskey.cpp \
 					aesGladman/aestab.cpp \
 					aesGladman/fileenc.cpp \
@@ -29,6 +26,11 @@ LOCAL_SRC_FILES := \
 					aesGladman/pwd2key.cpp \
 					aesGladman/sha1.cpp \
 					aesGladman/sha2.cpp \
+
+LOCAL_SRC_FILES := \
+					Android/CIrrDeviceAndroid.cpp \
+					Android/CAndroidAssetReader.cpp \
+					Android/CAndroidAssetFileArchive.cpp \
 					C3DSMeshFileLoader.cpp \
 					CAnimatedMeshHalfLife.cpp \
 					CAnimatedMeshMD2.cpp \
