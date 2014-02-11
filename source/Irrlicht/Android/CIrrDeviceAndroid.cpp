@@ -278,21 +278,21 @@ s32 CIrrDeviceAndroid::handleInput(android_app* app, AInputEvent* androidEvent)
 		s32 PointerCount = AMotionEvent_getPointerCount(androidEvent);
 		s32 AndroidEventAction = AMotionEvent_getAction(androidEvent);
 		s32 EventAction =  AndroidEventAction & AMOTION_EVENT_ACTION_MASK;
-		s32 ChangedPointerID = (AndroidEventAction & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+		s32 ChangedPointerIdx = (AndroidEventAction & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 
 		bool MultiTouchEvent = true;
-		bool Touched = false;
+		bool EventTouched = false;
 
 		switch (EventAction)
 		{
 		case AMOTION_EVENT_ACTION_DOWN:
 		case AMOTION_EVENT_ACTION_POINTER_DOWN:
 			Event.MultiTouchInput.Event = EMTIE_PRESSED_DOWN;
-			Touched = true;
+			EventTouched = true;
 			break;
 		case AMOTION_EVENT_ACTION_MOVE:
 			Event.MultiTouchInput.Event = EMTIE_MOVED;
-			Touched = true;
+			EventTouched = true;
 			break;
 		case AMOTION_EVENT_ACTION_UP:
 		case AMOTION_EVENT_ACTION_POINTER_UP:
@@ -333,7 +333,12 @@ s32 CIrrDeviceAndroid::handleInput(android_app* app, AInputEvent* androidEvent)
 					Event.MultiTouchInput.PrevY[i] = y;
 				}
 
-				if ((Event.MultiTouchInput.Touched[i] = Touched || (ChangedPointerID != id)))
+				// we assume that pointer is down when one of following is met:
+				// 1) we're processing pointer with index ChangedPointerIdx and EventAction says it's down
+				// 2) we're processing some other pointer (it's still here so it's down for sure)
+				bool Touched = EventTouched || (ChangedPointerIdx != i);
+				Event.MultiTouchInput.Touched[i] = Touched;
+				if (Touched)
 					(*newMotionData)[id] = core::vector2d<s32>(x, y);
 			}
 			delete Device->previousMotionData;
