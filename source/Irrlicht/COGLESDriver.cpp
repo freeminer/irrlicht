@@ -1137,7 +1137,8 @@ void COGLES1Driver::draw2DImage(const video::ITexture* texture, const core::rect
 		return;
 
 	// texcoords need to be flipped horizontally for RTTs
-	const bool isRTT = texture->isRenderTarget();
+	// FIXME http://irrlicht.sourceforge.net/forum/viewtopic.php?f=7&t=49574
+	const bool isRTT = false && texture->isRenderTarget();
 	const core::dimension2du& ss = texture->getOriginalSize();
 	const f32 invW = 1.f / static_cast<f32>(ss.Width);
 	const f32 invH = 1.f / static_cast<f32>(ss.Height);
